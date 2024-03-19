@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BindingUI"
+rootProject.name = "bindingUI"
 include(":app")
 include(":library:binding-ui")

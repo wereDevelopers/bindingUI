@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -38,4 +39,18 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.databinding:viewbinding:8.2.0")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "io.github.weredevelopers"
+                artifactId = "bindingUI"
+                version = "1.0"
+            }
+        }
+    }
 }
