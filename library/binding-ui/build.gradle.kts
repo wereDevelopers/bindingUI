@@ -1,9 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
-apply(from = "publish.gradle")
+//apply(from = "publish.gradle")
 
 android {
     namespace = "com.weredev.binding_ui"
@@ -29,6 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -42,16 +48,16 @@ dependencies {
     implementation("androidx.databinding:viewbinding:8.2.0")
 }
 
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            create<MavenPublication>("release") {
-//                from(components["release"])
-//
-//                groupId = "io.github.weredevelopers"
-//                artifactId = "bindingUI"
-//                version = "1.0"
-//            }
-//        }
-//    }
-//}
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "io.github.weredevelopers"
+                artifactId = "bindingUI"
+                version = "1.0"
+            }
+        }
+    }
+}
