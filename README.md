@@ -17,7 +17,9 @@ android {
 }
 ```
 ```groovy
-Implementation("TODO link maven")
+dependencies {
+    implementation('com.github.wereDevelopers:bindingUI:{LastTag}')
+}
 ```
 
 

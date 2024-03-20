@@ -4,8 +4,6 @@ plugins {
     id("maven-publish")
 }
 
-//apply(from = "publish.gradle")
-
 android {
     namespace = "com.weredev.binding_ui"
     compileSdk = 34
