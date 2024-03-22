@@ -14,7 +14,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -52,9 +52,9 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
 
-                groupId = "io.github.weredevelopers"
+                groupId = "com.github.weredevelopers"
                 artifactId = "bindingUI"
-                version = "1.0"
+                version = "1.1"
             }
         }
     }
