@@ -3,6 +3,8 @@ package com.weredev.binding_ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,5 +59,20 @@ public inline fun <reified T> Bundle?.getSerializableFromBundle(key: String): T?
         this?.getSerializable(key, Serializable::class.java) as T?
     } else {
         this?.getSerializable(key) as T?
+    }
+}
+
+/**
+ * Extension function to convert a HTML-formatted string into a Spanned object.
+ * Uses different methods based on the Android version.
+ *
+ * @receiver String The HTML-formatted string to be converted.
+ * @return Spanned The converted Spanned object.
+ */
+fun String.convertFromHtml(): Spanned {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        Html.fromHtml(this)
     }
 }
