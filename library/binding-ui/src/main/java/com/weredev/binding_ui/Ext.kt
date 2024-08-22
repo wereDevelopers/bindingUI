@@ -1,14 +1,18 @@
 package com.weredev.binding_ui
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.Html
 import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import java.io.Serializable
 
@@ -75,4 +79,52 @@ fun String.convertFromHtml(): Spanned {
     } else {
         Html.fromHtml(this)
     }
+}
+
+/**
+ * Sets the tappable status of a view by enabling or disabling it, changing its background color,
+ * and setting or removing the click listener based on the active state.
+ *
+ * @param isActive A boolean flag indicating whether the view should be active (enabled and tappable).
+ * @param onClickListener The click listener to be set if the view is active. If the view is inactive, the listener is removed.
+ * @param activeColor The color resource to be applied as the background tint when the view is active.
+ * @param disableColor The color resource to be applied as the background tint when the view is inactive.
+ */
+fun View.setTappableStatus(isActive: Boolean, onClickListener: View.OnClickListener, @ColorInt activeColor: Int, @ColorInt disableColor: Int) {
+    isEnabled = isActive
+    if (isActive) {
+        backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                activeColor
+            )
+        )
+        setOnClickListener(onClickListener)
+    } else {
+        backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                disableColor
+            )
+        )
+        setOnClickListener(null)
+    }
+}
+
+/**
+ * Checks if the view is clickable by ensuring that clicks are not registered
+ * within a specified number of milliseconds of each other to prevent accidental double clicks.
+ *
+ * @param minMillisecondStop The minimum time interval (in milliseconds) required between two consecutive clicks.
+ *                           Defaults to 500 milliseconds.
+ * @return `true` if the view is clickable (i.e., the last click was more than `minMillisecondStop` milliseconds ago),
+ *         `false` otherwise.
+ */
+private var mLastClickTime: Long = 0
+fun View.isViewClickable(minMillisecondStop: Long = 500): Boolean {
+    if (SystemClock.elapsedRealtime() - mLastClickTime < minMillisecondStop){
+        return false
+    }
+    mLastClickTime = SystemClock.elapsedRealtime()
+    return true
 }
